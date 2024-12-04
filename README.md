@@ -12,8 +12,8 @@ straddle/embed/
 │   ├── event-load.js
 │   ├── iframe.html
 │   ├── script.js
-│   ├── singlepage.html
-│   └── EmbedComponent.tsx
+│   ├── single-page.html
+│   └── StraddleEmbedComponent.tsx
 │
 ├── README.md
 └── package.json
@@ -54,16 +54,16 @@ This is the main initialization script for the Straddle embed. It defines the `l
 <script src="path/to/script.js"></script>
 ```
 
-### src/singlepage.html
+### src/single-page.html
 
 This file demonstrates a complete single-page implementation of the Straddle embed, including both the iframe and the initialization script. Copy the contents of this file and adapt it to your needs.
 
-### src/EmbedComponent.tsx
+### src/StraddleEmbedComponent.tsx
 
 This is a React component for the Straddle embed, allowing easy integration into React applications.
 
 ```tsx
-import EmbedComponent from 'path/to/EmbedComponent';
+import EmbedComponent from 'path/to/StraddleEmbedComponent';
 
 function App() {
   return (
@@ -91,7 +91,7 @@ For more control over when the embed loads:
 
 ### React Implementation
 
-For React applications, import and use the `EmbedComponent` as shown in the usage example above.
+For React applications, import and use the `StraddleEmbedComponent` as shown in the usage example above.
 
 ## Important Note
 
