@@ -1,0 +1,36 @@
+{
+  "name": "@straddle/embed",
+  "version": "1.0.0",
+  "description": "Straddle embed components and utilities for easy integration",
+  "main": "src/StraddleEmbedComponent.tsx",
+  "types": "src/StraddleEmbedComponent.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/straddleio/embed.git"
+  },
+  "keywords": [
+    "straddle",
+    "embed",
+    "react",
+    "typescript"
+  ],
+  "author": "Straddle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/straddleio/embed/issues"
+  },
+  "homepage": "https://github.com/straddleio/embed#readme",
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^4.5.0"
+  }
+}
+
