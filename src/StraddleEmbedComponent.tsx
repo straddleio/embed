@@ -1,17 +1,27 @@
 import React, { useEffect } from 'react'
 
+// Extend the Window interface for Straddle
+declare global {
+  interface Window {
+    Straddle?: {
+      loadEmbeds: () => void;
+    };
+  }
+}
+
 interface StraddleEmbedComponentProps {
   platformId: string;
+  env: string;
   maxWidth?: 'narrow' | 'medium' | 'wide' | 'full' | 'auto';
 }
 
 const StraddleEmbedComponent: React.FC<StraddleEmbedComponentProps> = ({
   platformId,
+  env,
   maxWidth = 'full'
 }) => {
   useEffect(() => {
     const embedScriptSrc = 'https://forms.straddle.io/embed.js'
-    const isDebugMode = false
 
     const loadEmbeds = () => {
       try {
@@ -22,25 +32,21 @@ const StraddleEmbedComponent: React.FC<StraddleEmbedComponentProps> = ({
             'iframe[data-straddle-src]:not([src])'
           )
 
+          // Fallback: set iframe src directly if Straddle.loadEmbeds is not available
           if (typeof iframes.forEach === 'function') {
             iframes.forEach((iframe) => {
-              if (isDebugMode) {
-                console.log('Straddle: Setting src for iframe:', iframe)
-              }
+              const htmlIframe = iframe as HTMLIFrameElement
               const src =
-                iframe.dataset?.straddleSrc ||
-                iframe.getAttribute('data-straddle-src') ||
+                htmlIframe.dataset?.straddleSrc ||
+                htmlIframe.getAttribute('data-straddle-src') ||
                 ''
-              iframe.src = src
+              htmlIframe.src = src
             })
           } else {
             for (let i = 0; i < iframes.length; i++) {
-              const iframe = iframes[i]
-              if (isDebugMode) {
-                console.log('Straddle: Setting src for iframe:', iframe)
-              }
-              const src = iframe.getAttribute('data-straddle-src') || ''
-              iframe.src = src
+              const htmlIframe = iframes[i] as HTMLIFrameElement
+              const src = htmlIframe.getAttribute('data-straddle-src') || ''
+              htmlIframe.src = src
             }
           }
         }
@@ -49,9 +55,7 @@ const StraddleEmbedComponent: React.FC<StraddleEmbedComponentProps> = ({
       }
     }
 
-    const existingScript = document.querySelector(
-      `script[src="${embedScriptSrc}"]`
-    )
+    const existingScript = document.querySelector(`script[src="${embedScriptSrc}"]`)
 
     const handleScriptError = () => {
       console.error('Failed to load the Straddle embed script.')
@@ -78,11 +82,11 @@ const StraddleEmbedComponent: React.FC<StraddleEmbedComponentProps> = ({
         existingScript.removeEventListener('error', handleScriptError)
       }
     }
-  }, [platformId])
+  }, [platformId, env])
 
   const widthClass = {
     narrow: 'max-w-sm',
-    medium: 'max-w-3xl', // Approximately 800px
+    medium: 'max-w-3xl',
     wide: 'max-w-5xl',
     full: 'w-full',
     auto: ''
@@ -92,7 +96,7 @@ const StraddleEmbedComponent: React.FC<StraddleEmbedComponentProps> = ({
     <div className="flex justify-center w-full">
       <div className={`w-full ${widthClass}`}>
         <iframe
-          data-straddle-src={`https://go.straddle.io/account?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&embed=1&platforms.id=${platformId}`}
+          data-straddle-src={`https://go.straddle.io/account?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&embed=1&platform.id=${platformId}&env=${env}`}
           loading="lazy"
           width="100%"
           style={{ minHeight: '500px' }}
