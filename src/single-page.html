@@ -1,56 +1,57 @@
 <!-- Straddle Embed Iframe -->
 <iframe
-  data-straddle-src="https://go.straddle.io/account?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&embed=1&platform.id={platform_id}&env={env}" 
-  loading="lazy"
-  width="100%"
-  height="500"
-  frameborder="0"
-  title="Activate your Straddle account">
+    data-tally-src="https://go.straddle.io/account?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1&embed=1&platform.id={platform_id}&env={env}"
+    loading="lazy"
+    width="100%"
+    height="500"
+    frameborder="0"
+    title="Activate your Straddle account"
+>
 </iframe>
 
 <!-- Straddle Embed Initialization Script -->
 <script>
-  (function () {
-    'use strict';
+    ;(function () {
+        'use strict'
 
-    const workerUrl = 'https://forms.straddle.io/embed.js';
-    const isDebugMode = false; // Set to true for debugging
+        const workerUrl = 'https://forms.straddle.io/embed.js'
+        const isDebugMode = false // Set to true for debugging
 
-    const initStraddleEmbed = () => {
-      try {
-        if (window.Straddle && typeof window.Straddle.loadEmbeds === 'function') {
-          // Load embeds using the Straddle script
-          window.Straddle.loadEmbeds();
-        } else {
-          // Fallback: Manually set iframe src attributes
-          const iframes = document.querySelectorAll('iframe[data-straddle-src]:not([src])');
-          iframes.forEach((iframe) => {
-            if (isDebugMode) {
-              console.log('Straddle: Setting src for iframe:', iframe);
+        const initStraddleEmbed = () => {
+            try {
+                if (window.Tally && typeof window.Tally.loadEmbeds === 'function') {
+                    // Load embeds using the Straddle script
+                    window.Tally.loadEmbeds()
+                } else {
+                    // Fallback: Manually set iframe src attributes
+                    const iframes = document.querySelectorAll('iframe[data-tally-src]:not([src])')
+                    iframes.forEach((iframe) => {
+                        if (isDebugMode) {
+                            console.log('Straddle: Setting src for iframe:', iframe)
+                        }
+                        const src = iframe.dataset.TallySrc || ''
+                        iframe.src = src
+                    })
+                }
+            } catch (error) {
+                console.error('Straddle: Failed to initialize embeds. Error:', error.message)
             }
-            const src = iframe.dataset.straddleSrc || '';
-            iframe.src = src;
-          });
         }
-      } catch (error) {
-        console.error('Straddle: Failed to initialize embeds. Error:', error.message);
-      }
-    };
 
-    // Check if the Straddle script is already loaded
-    if (!window.Straddle && !document.querySelector(`script[src="${workerUrl}"]`)) {
-      const script = document.createElement('script');
-      script.src = workerUrl;
-      script.async = true;
-      script.onload = initStraddleEmbed;
-      script.onerror = () => {
-        console.error('Straddle: Failed to load the embed script.');
-        initStraddleEmbed(); // Fallback in case of error
-      };
-      document.body.appendChild(script);
-    } else {
-      // Initialize immediately if Straddle is available
-      initStraddleEmbed();
-    }
-  })();
+        // Check if the Tally script is already loaded
+        if (!window.Tally && !document.querySelector(`script[src="${workerUrl}"]`)) {
+            const script = document.createElement('script')
+            script.src = workerUrl
+            script.async = true
+            script.onload = initStraddleEmbed
+            script.onerror = () => {
+                console.error('Straddle: Failed to load the embed script.')
+                initStraddleEmbed() // Fallback in case of error
+            }
+            document.body.appendChild(script)
+        } else {
+            // Initialize immediately if Straddle is available
+            initStraddleEmbed()
+        }
+    })()
 </script>
